@@ -540,7 +540,7 @@ class Client():
     res = self._send_mutation(query, variables)
     return res["data"]
 
-  def send_payment(self, to_pk: str, from_pk: str, amount: Currency, fee: Currency, memo: str) -> dict:
+  def send_payment(self, to_pk: str, from_pk: str, amount: int, fee: int, memo: str) -> dict:
     """Send a payment from the specified wallet to the specified target wallet. 
     
     Arguments:
@@ -578,8 +578,8 @@ class Client():
     variables = {
       "from": from_pk,
       "to": to_pk,
-      "amount": amount.nanocodas(),
-      "fee": fee.nanocodas(),
+      "amount": amount,
+      "fee": fee,
       "memo": memo
     }
     res = self._send_mutation(query, variables)
