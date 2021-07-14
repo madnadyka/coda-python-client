@@ -484,6 +484,32 @@ class Client():
     '''
     res = self._send_query(query)
     return res["data"]    
+  
+  def lock_wallet(self, pk: str) -> dict:
+    """Locks the wallet for the specified Public Key.
+
+    Arguments:
+        pk {str} -- A Public Key corresponding to a currently installed wallet.
+
+    Returns:
+        dict -- Returns the "data" field of the JSON Response as a Dict.
+    """
+    query = '''
+    mutation ($publicKey: PublicKey!) {
+      lockWallet(input: {publicKey: $publicKey}) {
+        account {
+          balance {
+            total
+          }
+        }
+      }
+    }
+    '''
+    variables = {
+      "publicKey": pk,
+    }
+    res = self._send_query(query, variables)
+    return res["data"]
 
   def get_current_snark_worker(self) -> dict:
     """Gets the currently configured SNARK Worker from the Coda Daemon. 
